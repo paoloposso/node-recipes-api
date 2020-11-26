@@ -8,9 +8,9 @@ app.use(express.json());
 
 app.get('/recipes', async (req, res) => {
     try {
-        res.send(recipes.getRecipes(req.query.i));
+        res.send(await recipes.getRecipes(req.query.i));
     } catch (err) {
-        res.status(500).send(err);
+        res.status(err.type || 500).send(err.message);
     }
 });
 

@@ -1,4 +1,5 @@
 let { errorType } = require('../errors');
+const { BusinessError } = require('./error');
 let { getRecipes } = require('../external-services/recipe-puppy-api');
 
 /**
@@ -7,15 +8,8 @@ let { getRecipes } = require('../external-services/recipe-puppy-api');
  */
 module.exports.getRecipes = (paramsStr) => {
     if (paramsStr.split(',').length > 3) {
-        throw new BusinessError('Max 3 ingredients are allowed', errorType.PARAM);
+        throw new BusinessError('Too many ingredients', errorType.PARAM);
     }
 
     return getRecipes(paramsStr);
-}
-
-class BusinessError extends Error {
-    constructor(args, type) {
-        super(args);
-        this.type = type;
-    }
 }

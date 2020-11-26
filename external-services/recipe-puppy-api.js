@@ -1,4 +1,5 @@
 const axios = require('axios');
+const giphyService = require('./giphy-api');
 
 /**
  * 
@@ -12,12 +13,25 @@ module.exports.getRecipes = async (params) => {
         recipes: [] 
     };
 
-    return res.data.results.forEach(element => {
+    for (let i = 0; i < res.data.results.length; i++) {
+        let element = res.data.results[i];
+        
+        let gifUrl = '';
+
+        try {
+            const gif = await giphyService.getGif(element.title);
+            gifUrl = gif.data.data[0].url;
+        } catch (err) {
+            console.log(`Error getting gif for ${element.title}: ${err}`);
+        }
+
         ret.recipes.push({
             title: element.title,
             ingredients: element.ingredients.split(','),
             link: element.href,
-            gif: ''
+            gif: gifUrl
         });
-    });
+    }
+
+    return ret;
 }
