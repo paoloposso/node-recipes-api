@@ -1,5 +1,10 @@
 const express = require('express');
-require('dotenv/config');
+
+console.log(`env: ${process.env.NODE_ENV}`);
+
+require('dotenv').config({  
+    path: process.env.NODE_ENV === "test" ? ".env.testing" : ".env"
+});
 
 const recipes = require('./use-cases/recipes');
 
@@ -14,6 +19,6 @@ app.get('/recipes', async (req, res) => {
     }
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 
 app.listen(port, () => console.log(`Listening on port ${port}`));

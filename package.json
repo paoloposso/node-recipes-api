@@ -1,9 +1,12 @@
 {
   "name": "much-challenge",
+  "jest": {
+    "verbose": true
+  },
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest  --env=node",
+    "test": "NODE_ENV=test jest --env=node",
     "start": "node index"
   },
   "keywords": [],
